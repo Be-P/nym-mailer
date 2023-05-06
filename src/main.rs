@@ -7,13 +7,11 @@ mod sendgrid;
 #[tokio::main]
 async fn main() {
     dotenv().ok();
-    //nym_bin_common::logging::setup_logging();
-    // Passing no config makes the client fire up an ephemeral session and figure shit out on its own
     let mut client = mixnet::MixnetClient::connect_new().await.unwrap();
 
     // Be able to get our client address
     let our_address = client.nym_address();
-    println!("Our Service Provider nym address is: {our_address}");
+    println!("Our Service Provider Nym address is: {our_address}");
 
     let send_mail_msg =
         sendgrid::SendMailMessage::new("gabrio.tognozzi", "gabrio.tognozzi@cyberleap.it", "Subject", "test");
