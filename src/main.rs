@@ -10,7 +10,7 @@ async fn main() {
     //nym_bin_common::logging::setup_logging();
     // Passing no config makes the client fire up an ephemeral session and figure shit out on its own
     let mut client = mixnet::MixnetClient::connect_new().await.unwrap();
-    
+
     // Be able to get our client address
     let our_address = client.nym_address();
     println!("Our Service Provider nym address is: {our_address}");
@@ -39,13 +39,4 @@ async fn process_message_async(msg: ReconstructedMessage) {
     let cow = String::from_utf8_lossy(&msg.message);
     let send_mail_msg: sendgrid::SendMailMessage = serde_json::from_str(cow.as_ref()).unwrap();
     sendgrid::send_mail(send_mail_msg).await;
-}
-
-#[cfg(test)]
-mod tests {
-
-    #[test]
-    fn example_dh() {
-        assert_eq!(1, 1);
-    }
 }
