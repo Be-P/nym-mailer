@@ -48,7 +48,11 @@ impl<'a> SendMailMessage<'a> {
 
 pub(crate) async fn send_mail(msg: SendMailMessage<'_>) {
     let sendgrid_api = env::var("SENDGRID_API_KEY").unwrap();
+    let sendgrid_domain = env::var("SENDGRID_DOMAIN").unwrap();
+
     let header = format!("Bearer {}", sendgrid_api);
+    let from = format!("{}@{}", msg.from, sendgrid_domain);
+
     let client = Client::new();
     let url = "https://api.sendgrid.com/v3/mail/send";
 
@@ -70,7 +74,7 @@ pub(crate) async fn send_mail(msg: SendMailMessage<'_>) {
             subject: msg.subject.to_string(),
         }],
         from: Recipient {
-            email: msg.from.to_string(),
+            email: from.to_string(),
         },
         content: vec![Content {
             r#type: "text/plain".to_string(),
