@@ -13,16 +13,7 @@ async fn main() {
     let our_address = client.nym_address();
     println!("Our Service Provider Nym address is: {our_address}");
 
-    let send_mail_msg =
-        sendgrid::SendMailMessage::new("gabrio.tognozzi", "gabrio.tognozzi@cyberleap.it", "Subject", "test");
-
-    let json_msg = serde_json::to_string(&send_mail_msg).unwrap();
-
-    // Send a message throught the mixnet to ourselves
-    client.send_str(*our_address, json_msg.as_str()).await;
-
-    println!("Waiting for message (ctrl-c to exit)");
-
+    println!("Listening for incoming messages ... (ctrl-c to exit)");
     client
         .on_messages(|msg| {
             spawn(async move {
@@ -33,8 +24,9 @@ async fn main() {
         .await;
 }
 
-async fn process_message_async(msg: ReconstructedMessage) {
+async fn process_message_async(msg: ReconstructedMessage) {    
     let cow = String::from_utf8_lossy(&msg.message);
-    let send_mail_msg: sendgrid::SendMailMessage = serde_json::from_str(cow.as_ref()).unwrap();
+    let send_mail_msg: mailer_common::SendMailMessage = serde_json::from_str(cow.as_ref()).unwrap();
+    println!("Received message {:?}", send_mail_msg);
     sendgrid::send_mail(send_mail_msg).await;
 }

@@ -1978,27 +1978,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "mailer-common"
-version = "0.1.0"
-dependencies = [
- "serde",
- "serde_json",
-]
-
-[[package]]
-name = "mailer-server"
-version = "0.1.0"
-dependencies = [
- "dotenv",
- "mailer-common",
- "nym-sdk",
- "reqwest",
- "serde",
- "serde_json",
- "tokio",
-]
-
-[[package]]
 name = "memchr"
 version = "2.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2874,11 +2853,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "nym_mailer_client"
+name = "nym_mailer"
 version = "0.1.0"
 dependencies = [
  "dotenv",
- "mailer-common",
  "nym-sdk",
  "reqwest",
  "serde",

@@ -1,12 +1,8 @@
-[package]
-name = "nym_mailer"
-version = "0.1.0"
-edition = "2021"
+[workspace]
 
-[dependencies]
-nym-sdk = { git = "https://github.com/nymtech/nym" }
-tokio = { version = "1", features = ["full"] }
-serde = { version = "1.0", features = ["derive"] }
-serde_json = "1.0"
-reqwest = "0.11.17"
-dotenv = "0.15.0"
+members = [
+    "mailer-server",
+    "mailer-client",
+    "mailer-common",
+]
+
