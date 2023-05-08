@@ -21,9 +21,11 @@ async fn main() {
 
     client.send_str(recipient, json_msg.as_str()).await;
 
+    // TODO Calling disconnect() before waiting for a message, would panic(), probably a bug
     client.send_str(*our_address, json_msg.as_str()).await;
     let msg = client.wait_for_messages().await.unwrap();
-    
-    println!("Disconnecting client {:?}...",msg);
+    println!("Received message {:?}!",msg);
+
+    println!("Disconnecting client ...");
     client.disconnect().await;
 }
