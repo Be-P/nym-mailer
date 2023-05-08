@@ -13,17 +13,17 @@ async fn main() {
     let recipient = Recipient::try_from_base58_string(destination_address).unwrap();
 
     let send_mail_msg =
-        mailer_common::SendMailMessage::new("gabrio.tognozzi", "gabrio.tognozzi@cyberleap.it", "Subject", "test");
+        mailer_common::SendMailMessage::new("gabrio.tognozzi", "gabrio.tognozzi@fluus.com", "Subject", "test");
 
     let json_msg = serde_json::to_string(&send_mail_msg).unwrap();
 
     println!("Sending {json_msg} to {recipient}");
 
-    // Send a message throught the mixnet to ourselves
     client.send_str(recipient, json_msg.as_str()).await;
-    client.send_str(*our_address, json_msg.as_str()).await;
 
+    client.send_str(*our_address, json_msg.as_str()).await;
     let msg = client.wait_for_messages().await.unwrap();
+    
     println!("Disconnecting client {:?}...",msg);
     client.disconnect().await;
 }
